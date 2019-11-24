@@ -1,1 +1,1 @@
-# gradle-test-report
+# Gradle Test Report Plugin
