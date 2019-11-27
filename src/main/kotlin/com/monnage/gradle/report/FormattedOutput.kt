@@ -42,4 +42,3 @@ internal class FormattedOutput(private val logging: LoggingExtension, private va
     private fun colorsEnabled() = !logging.noColor
     private fun textStylesEnabled() = !logging.noFontStyling
 }
-

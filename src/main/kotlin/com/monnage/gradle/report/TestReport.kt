@@ -76,8 +76,8 @@ internal class TestReport(private val test: Test, private val config: TestReport
         afterSuite(KotlinClosure2<TestDescriptor, TestResult, Unit>({ desc, result ->
             if (desc.parent == null) {
                 with(result) {
-                    out.display(("[$testCount total, $successfulTestCount succeeded, $failedTestCount failed, $skippedTestCount skipped, " +
-                            "${elapsed(this)}]\n").gray(out, italic = true), 3)
+                    out.display(("[$testCount total, $successfulTestCount succeeded, $failedTestCount failed, " +
+                        "$skippedTestCount skipped, ${elapsed(this)}]\n").gray(out, italic = true), 3)
                 }
             }
         }))
