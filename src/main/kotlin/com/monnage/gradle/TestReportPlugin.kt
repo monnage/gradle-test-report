@@ -15,14 +15,14 @@ class TestReportPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.run {
             // Register extension DSL
-            val testReport = extensions.create("testReport", TestReportExtension::class.java)
+            val testReport = extensions.create("testReport", TestReportExtension::class.java, project)
 
             // Configure plugins if present
             PLUGIN_ACTIONS.forEach { pluginAction ->
                 pluginAction.getPluginClass().let {
                     plugins.withType(it.java, closureOf<Plugin<out Project>> {
                         pluginAction.execute(project)
-                        logger.lifecycle("[TestReport plugin] ${this.javaClass.simpleName} pre-configured")
+//                        logger.lifecycle("[TestReport plugin] ${this.javaClass.simpleName} pre-configured")
                     })
                 }
             }

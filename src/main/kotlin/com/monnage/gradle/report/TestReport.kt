@@ -31,10 +31,27 @@ internal class TestReport(private val test: Test, private val config: TestReport
         // technology specific
         applyFrameworkSpecificSettings(config.framework)
         // events
-        beforeSuiteReport()
-        beforeTestReport()
-        afterTestReport()
-        afterSuiteReport()
+        if (!config.parallel) {
+            beforeSuiteReport()
+            beforeTestReport()
+            afterTestReport()
+            afterSuiteReport()
+        } else {
+            afterParallelTestReport()
+        }
+    }
+
+    private fun Test.afterParallelTestReport() {
+        afterTest(KotlinClosure2<DecoratingTestDescriptor, TestResult, Unit>({ desc, result ->
+            val displayClassname = desc.classDisplayName
+            val classname = desc.className?.let { "($it)" }?.gray(out, italic = true)
+            val name = with(desc) {
+                if (displayName.endsWith("()")) displayName.substringBefore("()") else displayName
+            }
+            val testResult = evalTestResult(result)
+            val elapsed = "[${elapsed(result)}]".gray(out, italic = true)
+            out.display("$testResult ${config.projectName} > $displayClassname > $name $elapsed " + (classname ?: ""), 0)
+        }))
     }
 
     private fun Test.beforeSuiteReport() {
@@ -45,7 +62,7 @@ internal class TestReport(private val test: Test, private val config: TestReport
                 firstEmptyLine = true
             }
             if (parent == null) {
-                out.display(":rocket: ${project.name}")
+                out.display(":rocket: ${config.projectName}")
             }
             className?.let {
                 val formattedClassName = "($it)".gray(out, italic = true)
