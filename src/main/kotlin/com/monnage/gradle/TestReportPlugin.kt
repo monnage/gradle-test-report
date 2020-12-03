@@ -22,7 +22,6 @@ class TestReportPlugin : Plugin<Project> {
                 pluginAction.getPluginClass().let {
                     plugins.withType(it.java, closureOf<Plugin<out Project>> {
                         pluginAction.execute(project)
-//                        logger.lifecycle("[TestReport plugin] ${this.javaClass.simpleName} pre-configured")
                     })
                 }
             }
@@ -37,6 +36,7 @@ class TestReportPlugin : Plugin<Project> {
      * Override some properties with values from cmd if present.
      */
     private fun Project.configureExtensions(testReport: TestReportExtension) {
+        testReport.parallel = gradle.startParameter.isParallelProjectExecutionEnabled
         findProperty("testReport.disabled")?.let {
             testReport.enabled = false
         }

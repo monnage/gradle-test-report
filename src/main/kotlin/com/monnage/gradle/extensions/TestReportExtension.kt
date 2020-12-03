@@ -9,7 +9,7 @@ open class TestReportExtension(val project: Project) {
 
     var enabled = true
     var parallel = false
-    var projectName = project.name
+    var projectName = project.parent?.name?.let { "$it:${project.name}" } ?: project.name
     var framework = FrameworkMode.SPRING_BOOT
 
     internal val logging = LoggingExtension()

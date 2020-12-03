@@ -13,6 +13,10 @@ class LoggingExtension {
     internal var noColor = false
     internal var noIcon = false
     internal var noFontStyling = false
+    internal var slowThreshold = 3000
+    internal var showErrorsInQuietMode = true
+    internal var showLogsFailedOnly = true
+    internal var showOnlyCauseException = true
 
     var exceptionFormat = TestExceptionFormat.SHORT
 
